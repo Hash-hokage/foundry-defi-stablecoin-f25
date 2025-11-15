@@ -228,7 +228,7 @@ contract DSCEngine is ReentrancyGuard {
         nonReentrant
     {
         uint256 startingUserHealthFactor = _healthFactor(user);
-        if (startingUserHealthBalance >= MIN_HEALTH_FACTOR) {
+        if (startingUserHealthFactor >= MIN_HEALTH_FACTOR) {
             revert DSCEngine__HealthFactorOk();
         }
         uint256 tokenAmountFromDebtCovered = getTokenAmountFromUsd(collateral, debtToCover);
@@ -238,7 +238,7 @@ contract DSCEngine is ReentrancyGuard {
         _burnDsc(debtToCover, user, msg.sender);
 
         uint256 endingUserHealthFactor = _healthFactor(user);
-        if (endingUserHealthFactor <= startingUserHealthBalance) {
+        if (endingUserHealthFactor <= startingUserHealthFactor) {
             revert DSCEngine__HealthFactorNotImproved();
         }
         _revertIfHealthFactorIsBroken(msg.sender);
